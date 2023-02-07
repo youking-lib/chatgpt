@@ -19,7 +19,7 @@ export const ConversationServices = {
     })
 
     console.log('coversation - send', options)
-    console.log('coversation - receive', options)
+    console.log('coversation - receive', res)
 
     return res
   },

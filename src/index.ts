@@ -22,7 +22,7 @@ function bootstrap() {
   app.post('/conversation', onPostConversation)
   app.use('/', staticFile)
 
-  app.listen(3003)
+  app.listen(3003, '0.0.0.0')
 }
 
 function staticFile(req: Request, res: Response, next: NextFunction) {

@@ -19,7 +19,7 @@
       <input
         id="conversation-input"
         type="text"
-        placeholder="eg: 拜年贺词"
+        placeholder="eg: 帮我写几段拜年贺词"
         class="input input-bordered w-full"
       />
     </div>
@@ -32,10 +32,15 @@
         parentMessageId: null,
       }
 
-      conversationInputEl.on('change', () => {
-        const message = conversationInputEl.val()
+      conversationInputEl.on('keydown', e => {
+        if (e.key === 'Enter') {
+          const text = conversationInputEl.val()
 
-        send(message)
+          if (text) {
+            send(text)
+            conversationInputEl.val('')
+          }
+        }
       })
 
       function send(message) {
@@ -47,7 +52,7 @@
         }
 
         $.post('/conversation', data, res => {
-          const conversationId = res['conversationId']
+          const conversationId = res['id']
           const id = res['id']
           const parentMessageId = res['parentMessageId']
           const role = res['role']
@@ -65,7 +70,7 @@
         const messageEl = document.createElement('pre')
 
         fragment.classList.add('chat', 'chat-start')
-        messageEl.classList.add('chat-bubble')
+        messageEl.classList.add('chat-bubble', 'break-words', 'whitespace-normal')
 
         messageEl.innerText = message
 
@@ -78,7 +83,7 @@
         const messageEl = document.createElement('pre')
 
         fragment.classList.add('chat', 'chat-end')
-        messageEl.classList.add('chat-bubble')
+        messageEl.classList.add('chat-bubble', 'break-words', 'whitespace-normal')
 
         messageEl.innerText = message
 
