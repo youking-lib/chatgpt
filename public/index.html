@@ -33,7 +33,7 @@
       }
 
       conversationInputEl.on('keydown', e => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && !e.altKey && !e.ctrlKey && !e.metaKey) {
           const text = conversationInputEl.val()
 
           if (text) {
