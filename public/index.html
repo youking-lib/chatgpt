@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@2.50.0/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/zepto/1.2.0/zepto.js"></script>
+  </head>
+  <body>
+    <div class="container mx-auto py-4" id="conversation-message"></div>
+    <div class="container mx-auto py-4">
+      <input
+        id="conversation-input"
+        type="text"
+        placeholder="eg: 拜年贺词"
+        class="input input-bordered w-full"
+      />
+    </div>
+
+    <script>
+      const conversationInputEl = $('#conversation-input')
+      const conversationMessageEl = $('#conversation-message')
+      const session = {
+        conversationId: null,
+        parentMessageId: null,
+      }
+
+      conversationInputEl.on('change', () => {
+        const message = conversationInputEl.val()
+
+        send(message)
+      })
+
+      function send(message) {
+        createQ(message)
+
+        const data = {
+          ...session,
+          message,
+        }
+
+        $.post('/conversation', data, res => {
+          const conversationId = res['conversationId']
+          const id = res['id']
+          const parentMessageId = res['parentMessageId']
+          const role = res['role']
+          const text = res['text']
+
+          session.conversationId = conversationId
+          session.parentMessageId = parentMessageId
+
+          createA(text)
+        })
+      }
+
+      function createA(message) {
+        const fragment = document.createElement('div')
+        const messageEl = document.createElement('pre')
+
+        fragment.classList.add('chat', 'chat-start')
+        messageEl.classList.add('chat-bubble')
+
+        messageEl.innerText = message
+
+        fragment.append(messageEl)
+        conversationMessageEl.append(fragment)
+      }
+
+      function createQ(message) {
+        const fragment = document.createElement('div')
+        const messageEl = document.createElement('pre')
+
+        fragment.classList.add('chat', 'chat-end')
+        messageEl.classList.add('chat-bubble')
+
+        messageEl.innerText = message
+
+        fragment.append(messageEl)
+        conversationMessageEl.append(fragment)
+      }
+    </script>
+  </body>
+</html>
