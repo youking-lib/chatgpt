@@ -3,7 +3,7 @@ const path = require('path')
 module.exports = {
   apps: [
     {
-      name: 'mtapp-servcies',
+      name: 'chatgpt-demo',
       script: path.resolve(__dirname, '../dist/index.js'),
       autorestart: true,
       env: {
