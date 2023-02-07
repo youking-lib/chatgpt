@@ -21,4 +21,4 @@ touch .env # add your OPENAI_API_KEY, ref .env.example
 npm run dev
 ```
 
-![](./docs/assets/WX20230207-171718.png)
+![](./public/WX20230207-171718.png)
